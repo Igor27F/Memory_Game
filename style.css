@@ -1,0 +1,56 @@
+body{
+    width: 98%;
+    height: 98vh;
+    display: flex;
+    align-items: center; 
+    justify-content: center;
+}
+#gameScreen{
+    background-color:red;
+    width:90%;
+    height:80%;
+    overflow: hidden;
+}
+#initialMenu{
+    height: 100%;
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    user-select: none;
+}
+#gameStart{
+    font-size: 70px;
+    color: black;
+    padding: 12px 24px 24px 24px;
+    cursor: pointer;
+}
+#gameStart:hover{
+    color: rgb(44, 53, 107);
+}
+#gameStart:active{
+    color: blue;
+}
+#difficultSelection{
+    display:flex;
+    width: 100%;
+    justify-content: space-evenly;
+    color: white;
+    visibility: hidden;
+}
+.difficult{
+    cursor: pointer;
+    padding: 24px;
+}
+.difficult:hover{
+    color: rgb(44, 53, 107);
+}
+.difficult:active{
+    color: blue;
+}
+#gameRunning{
+    display: none;
+    line-height: auto;
+}
+.meme{
+}
