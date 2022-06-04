@@ -1,26 +1,34 @@
+*{
+    user-select: none;
+}
 body{
     width: 98%;
     height: 98vh;
     display: flex;
     align-items: center; 
     justify-content: center;
+    background-color: black;
+    overflow: hidden;
 }
 #gameScreen{
-    background-color:red;
     width:90%;
     height:80%;
     overflow: hidden;
 }
 #initialMenu{
+    background-image: url('imgs/bg5.gif');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    background-attachment: fixed;
+    width: 100%;
     height: 100%;
     display:flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    user-select: none;
 }
 #gameStart{
-    font-size: 70px;
+    font-size: 72px;
     color: black;
     padding: 12px 24px 24px 24px;
     cursor: pointer;
@@ -52,5 +60,72 @@ body{
     display: none;
     line-height: auto;
 }
-.meme{
+#gameInstructions{
+    background-color: black;
+    position: absolute;
+}
+#instructionText{
+    color: white;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+#timer{
+    background-color: green;
+    position: absolute;
+}
+#gameOver{
+    background-color: red;
+    width:100%;
+    height: 100%;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+#youLoseText{
+    color:black;
+    font-size: 72px;
+}
+#gameOverOptions{
+    display:flex;
+    width: 100%;
+    justify-content: space-evenly;
+    color: white;
+    margin-top: 24px;
+    font-size: 24px;
+}
+#menuReturn{
+    padding: 24px;
+    cursor: pointer;
+}
+#tryAgain{
+    padding: 24px;
+    cursor: pointer;
+}
+#victory{
+    width: 100%;
+    height: 100%;
+    align-items: center; 
+    justify-content: center;
+    color: white;
+    background-color:black;
+    font-size: 72px;
+}
+
+@keyframes timer-animation-reverse{
+    from{
+        width: 100%;
+    }
+    to{
+        width: 0;
+    }
+}
+@keyframes timer-animation{
+    from{
+        width: 0;
+    }
+    to{
+        width: 100%;
+    }
 }
