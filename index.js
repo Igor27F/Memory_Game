@@ -85,6 +85,7 @@ function imageSelected(img, imgNumber){
                     selectedList[0].classList.add('correct');
                     if(document.getElementsByClassName("correct").length == 12){
                         screens.victory();
+                        return 0;
                     }
                 }
                 else{
@@ -101,10 +102,8 @@ function imageSelected(img, imgNumber){
 
 //menu inicial
 document.getElementById('gameStart').onclick = ()=>{
-    document.getElementById('difficultSelection').style.visibility = 'visible'
-    document.getElementById('gameStart').style.color = 'black'
-    document.getElementById('gameStart').style.cursor = 'initial'
-    document.getElementById('gameStart').innerHTML = 'Selecione a dificuldade'
+    document.getElementById('difficultSelection').style.visibility = 'visible';
+    document.getElementById('gameStart').classList.remove('gameButton');
 }
 
 //Meme constructor
@@ -112,6 +111,7 @@ Meme = function(positionX, positionY, imgNumber){
     this.img = document.createElement("img");
     document.getElementById('gameRunning').appendChild(this.img);
     this.img.src = "imgs/meme" + imgNumber + ".jpg";
+    this.img.draggable = false;
     this.img.className = 'meme';
     this.img.classList.add('meme' + imgNumber);
     this.img.onclick = ()=> {
@@ -139,6 +139,8 @@ Firework = function(){
     this.img.style.top = randomY + 'px';
     this.img.style.left = randomX + 'px';
     this.img.style.position = 'absolute';
+    this.img.draggable = false;
+    this.img.onclick = ()=>this.img.remove();
     setTimeout(()=>{
         this.img.remove();
     }, 2000);
@@ -148,6 +150,9 @@ Firework = function(){
 screens = {
     initialMenu: ()=>{
         ClearPages();
+        document.getElementById('difficultSelection').style.visibility = 'hidden';
+        document.getElementById('gameStart').className= 'gameButton';
+        document.getElementById('gameStart').innerHTML = 'Começar joguinho'
         document.getElementById('initialMenu').style.display = 'flex';
     },
     gameRunning: ()=>{
@@ -161,6 +166,7 @@ screens = {
     victory: ()=>{
         ClearPages();
         document.getElementById('victory').style.display = 'flex';
+        spawnFireworks();
     }
 }
 function ClearPages(){
@@ -171,9 +177,11 @@ function ClearPages(){
 }
 
 //carregar jogo
-document.getElementById('medium').onclick = ()=>{
+document.getElementById('medium').onclick = ()=>loadGame();
+
+function loadGame(){
+    gameReset();
     screens.gameRunning();
-    spawnFireworks();
     x = total;
 
     for(let i=0; i<numberOfRows; i++){
@@ -202,33 +210,41 @@ document.getElementById('medium').onclick = ()=>{
     memorizeTime(3);
 }
 
+//criar fireworks
 function spawnFireworks(){
-    setTimeout(()=>{
-        new Firework();
-        spawnFireworks();
-    },100);
+    if(!isGameRunning){
+        setTimeout(()=>{
+            new Firework();
+            spawnFireworks();
+        },200);
+    }
 }
 
 //game over opções
+document.getElementById('gameOverMenuReturn').onclick = ()=>{
+    screens.initialMenu();
+}
 document.getElementById('menuReturn').onclick = ()=>{
     screens.initialMenu();
 }
 document.getElementById('tryAgain').onclick = ()=>{
-    screens.gameRunning();
+    loadGame();
 }
 
 memes = document.getElementsByClassName("meme");
 
-/*
-//loop
-let lastTime = 0;
-function gameLoop(timestamp){
-    let deltaTime = timestamp - lastTime;
-
-    lastTime = timestamp;
-
-    requestAnimationFrame(gameLoop);
+//resetar jogo
+function gameReset(){
+    if(memes.length > 0){
+        for(let i=memes.length;i>0;i--){
+            memes[i-1].remove();
+        }
+    }
+    document.getElementById('instructionText').innerHTML = 'Memorize as cartas';
+    images = [];
+    for(let i=1; i<= 12; i++){
+        images.push((i > 6) ? (i - 6) : i)
+    }
 }
 
-gameLoop();
-*/
+screens.initialMenu();
