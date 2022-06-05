@@ -6,7 +6,7 @@ fwColors = ['blue', 'cyan', 'orange', 'pink', 'purple', 'purple2', 'white'];
 difficult = '';
 images = [];
 total = 0;
-totalMemes = 28;
+totalMemes = 29;
 var flipTimer;
 
 //selecionar Imagens
