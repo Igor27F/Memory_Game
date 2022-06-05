@@ -70,7 +70,9 @@ function gameLoop(time){
                 gameLoop(time-1);
             }
             else{
-                screens.gameOver();
+                if(isGameRunning){
+                    screens.gameOver();
+                }
             }
         }, 1000);
     }
