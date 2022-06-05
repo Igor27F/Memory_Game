@@ -1,13 +1,21 @@
 gameScreen = document.getElementById('gameScreen');
-numberOfColumns = 4;
-numberOfRows = 3;
+numberOfColumns = 0;
+numberOfRows = 0;
 isGameRunning = false;
 fwColors = ['blue', 'cyan', 'orange', 'pink', 'purple', 'purple2', 'white'];
+difficult = '';
 images = [];
-for(let i=1; i<= 12; i++){
-    images.push((i > 6) ? (i - 6) : i)
+total = 0;
+totalMemes = 28;
+var flipTimer;
+
+//selecionar Imagens
+function populateImages(){
+    images = [];
+    for(let i=1; i<= totalMemes; i++){
+        images.push(i)
+    }
 }
-total = 12;
 
 //posicionar elementos na tela
 function draw(){
@@ -17,10 +25,10 @@ function draw(){
     document.getElementById('instructionText').style.marginTop = (document.getElementById('gameInstructions').offsetHeight * 0.5) + 'px';
     if(memes[0]){
         for(let i=0; i< total; i++){
-            memes[i].style.height = (gameScreen.offsetHeight * 30 / 100) + 'px';
-            memes[i].style.width = (gameScreen.offsetWidth * 25 / 100) + 'px';
-            memes[i].style.marginLeft = (gameScreen.offsetWidth * 25 / 100) * (i+1 > numberOfColumns ?  i % numberOfColumns : i ) + 'px';
-            memes[i].style.marginTop = (gameScreen.offsetHeight * 10 / 100) + (gameScreen.offsetHeight * 30 / 100) * parseInt(i / numberOfColumns) + 'px';
+            memes[i].style.height = (gameScreen.offsetHeight * (100/numberOfRows) / 100) + 'px';
+            memes[i].style.width = (gameScreen.offsetWidth * (100/numberOfColumns) / 100) + 'px';
+            memes[i].style.marginLeft = (gameScreen.offsetWidth * (100/numberOfColumns) / 100) * (i+1 > numberOfColumns ?  i % numberOfColumns : i ) + 'px';
+            memes[i].style.marginTop = (gameScreen.offsetHeight * 10 / 100) + (gameScreen.offsetHeight * (100/numberOfRows) / 100) * parseInt(i / numberOfColumns) + 'px';
         }
     }
 }
@@ -32,14 +40,14 @@ window.addEventListener("resize", ()=>{
 });
 
 //tempo para memorizar imagens
-function memorizeTime(time){
-    document.getElementById('timer').style.animation = 'timer-animation-reverse ' + time + 's linear';
+function memorizeTime(memTime, playTime){
+    document.getElementById('timer').style.animation = 'timer-animation-reverse ' + memTime + 's linear';
 
     setTimeout(()=>{
         document.getElementById('timer').style.animation = '';
         document.getElementById('timer').style.width = 0;
-        gameStart(20);
-    }, time * 1000)
+        gameStart(playTime);
+    }, memTime * 1000)
 }
 
 //começar jogo
@@ -70,34 +78,44 @@ function gameLoop(time){
 
 //imagem selecionada
 function imageSelected(img, imgNumber){
-    if(!img.classList.contains('correct') && isGameRunning){
-        isGameRunning = false;
+    if(!img.classList.contains('correct')){
+        selectedList = document.getElementsByClassName("selected");
+
+        if(selectedList.length == 2){
+            clearTimeout(flipTimer);
+            flipWrongImgs(selectedList[0], selectedList[1]);
+        }
+        
         img.classList.add('selected');
         img.src = 'imgs/meme'+imgNumber+'.jpg';
-        selectedList = document.getElementsByClassName("selected");
         
-        setTimeout(()=>{
-            if(selectedList.length > 1){
-                if(selectedList[0].classList.item(1) == selectedList[1].classList.item(1)){
-                    selectedList[0].style.opacity = 0.2;
-                    selectedList[1].style.opacity = 0.2;
-                    selectedList[1].classList.add('correct');
-                    selectedList[0].classList.add('correct');
-                    if(document.getElementsByClassName("correct").length == 12){
-                        screens.victory();
-                        return 0;
-                    }
+        if(selectedList.length == 2){
+            first = selectedList[0];
+            second = selectedList[1];
+            if(first.classList.item(1) == second.classList.item(1)){
+                first.style.opacity = 0.2;
+                second.style.opacity = 0.2;
+                first.classList.add('correct');
+                second.classList.add('correct');
+                second.classList.remove('selected');
+                first.classList.remove('selected');
+                if(document.getElementsByClassName("correct").length == total){
+                    screens.victory();
                 }
-                else{
-                    selectedList[0].src = 'imgs/card.png';
-                    selectedList[1].src = 'imgs/card.png';
-                }
-                selectedList[1].classList.remove('selected');
-                selectedList[0].classList.remove('selected');
             }
-            isGameRunning = true;
-        }, 700);
+            else{
+                flipTimer = setTimeout(()=>{
+                    flipWrongImgs(first, second);
+                }, 2000)
+            }
+        }
     }
+}
+function flipWrongImgs(first, second){
+    second.src = 'imgs/card.png';
+    first.src = 'imgs/card.png';
+    second.classList.remove('selected');     
+    first.classList.remove('selected');    
 }
 
 //menu inicial
@@ -146,6 +164,17 @@ Firework = function(){
     }, 2000);
 }
 
+InsaneMode = function(){
+    this.h2 = document.createElement("h2");
+    document.getElementById('difficultSelection').appendChild(this.h2);
+    this.h2.id = 'insane';
+    this.h2.className = 'difficult gameButton';
+    this.h2.innerHTML = 'Insano';
+    this.h2.style.color = 'red';
+    this.h2.style.fontWeight = 'bold';
+    this.h2.onclick = ()=>{difficult='insane';loadGame();};
+}
+
 //alterador de telas
 screens = {
     initialMenu: ()=>{
@@ -160,13 +189,16 @@ screens = {
         document.getElementById('gameRunning').style.display = 'initial';
     },
     gameOver: ()=>{
+        isGameRunning = false;
         ClearPages();
         document.getElementById('gameOver').style.display = 'flex';
     },
     victory: ()=>{
+        isGameRunning = false;
         ClearPages();
         document.getElementById('victory').style.display = 'flex';
         spawnFireworks();
+        if(difficult == 'hard') new InsaneMode();
     }
 }
 function ClearPages(){
@@ -177,37 +209,62 @@ function ClearPages(){
 }
 
 //carregar jogo
-document.getElementById('medium').onclick = ()=>loadGame();
+document.getElementById('easy').onclick = ()=>{difficult='easy';loadGame();}
+document.getElementById('medium').onclick = ()=>{difficult='medium';loadGame();}
+document.getElementById('hard').onclick = ()=>{difficult='hard';loadGame();}
 
 function loadGame(){
     gameReset();
     screens.gameRunning();
-    x = total;
-
+    playTime = 0;
+    switch(difficult){
+        case 'easy':
+            numberOfColumns = 3;
+            numberOfRows = 2;
+            playTime = 10;
+            memTime = 3;
+            break;
+        case 'medium':
+            numberOfColumns = 4;
+            numberOfRows = 3;
+            playTime = 15;
+            memTime = 3;
+            break;
+        case 'hard':
+            numberOfColumns = 6;
+            numberOfRows = 4;
+            playTime = 45;
+            memTime = 0;
+            break;
+        case 'insane':
+            numberOfColumns = 8;
+            numberOfRows = 5;
+            playTime = 90;
+            memTime = 0;
+            break;
+    }
+    total = numberOfColumns * numberOfRows;
+    populateImages();
+    aux = [];
+    for(let i=0; i<total/2;i++){
+        randomImage = Math.floor(Math.random() * (totalMemes - i));
+        aux.push(images[randomImage],images[randomImage]);
+        images.splice(randomImage,1);
+    }
     for(let i=0; i<numberOfRows; i++){
         for(let j=0; j<numberOfColumns; j++){
-            randomNumber = parseInt(Math.random() * x + 1);
-
-            if(randomNumber == x){
-                randomNumber--;
-            }
-
-            new Meme(j,i, images[randomNumber]);
-            
-            aux = [];
-
-            for(let k=0; k < images.length; k++){
-                if(k != randomNumber){
-                    aux.push(images[k])
-                }
-            }
-
-            images = aux;
-            x--;
+            randomNumber = Math.floor(Math.random()*(total - j - (i*numberOfColumns)));
+            new Meme(j,i, aux[randomNumber]);
+            aux.splice(randomNumber,1);
         }
     }
     draw();
-    memorizeTime(3);
+    if(memTime > 0){
+        memorizeTime(memTime,playTime);
+    }
+    else{
+        gameStart(playTime);
+    }
 }
 
 //criar fireworks
@@ -242,9 +299,7 @@ function gameReset(){
     }
     document.getElementById('instructionText').innerHTML = 'Memorize as cartas';
     images = [];
-    for(let i=1; i<= 12; i++){
-        images.push((i > 6) ? (i - 6) : i)
-    }
+    populateImages();
 }
 
 screens.initialMenu();

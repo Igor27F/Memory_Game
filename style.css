@@ -34,6 +34,7 @@ body{
 }
 .gameButton{
     cursor: pointer;
+    text-shadow: 2px 2px 4px #000000;
 }
 .gameButton:hover{
     color: rgb(44, 53, 107);
