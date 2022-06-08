@@ -7,14 +7,24 @@ difficult = '';
 images = [];
 total = 0;
 totalMemes = 29;
+totalPokemon = 898;
+totalRickAndMorty = 826;
+rickAndMortyApi = 'https://rickandmortyapi.com/api/character/avatar/';
+pokemonAPI = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/'
 var flipTimer;
+sortedTheme = Math.floor(Math.random() * 2);
+totalImgs = sortedTheme == 0 ? totalRickAndMorty : totalPokemon;
 
 //selecionar Imagens
 function populateImages(){
     images = [];
-    for(let i=1; i<= totalMemes; i++){
+    for(let i=1; i<= totalImgs; i++){
         images.push(i)
     }
+}
+
+function drawImage(number){
+    return sortedTheme == 0 ? rickAndMortyApi + number + '.jpeg' : pokemonAPI + number + '.png';
 }
 
 //posicionar elementos na tela
@@ -89,7 +99,7 @@ function imageSelected(img, imgNumber){
         }
         
         img.classList.add('selected');
-        img.src = 'imgs/meme'+imgNumber+'.jpg';
+        img.src = drawImage(imgNumber);
         
         if(selectedList.length == 2){
             first = selectedList[0];
@@ -130,7 +140,7 @@ document.getElementById('gameStart').onclick = ()=>{
 Meme = function(positionX, positionY, imgNumber){
     this.img = document.createElement("img");
     document.getElementById('gameRunning').appendChild(this.img);
-    this.img.src = "imgs/meme" + imgNumber + ".jpg";
+    this.img.src = drawImage(imgNumber);
     this.img.draggable = false;
     this.img.className = 'meme';
     this.img.classList.add('meme' + imgNumber);
@@ -224,32 +234,32 @@ function loadGame(){
             numberOfColumns = 3;
             numberOfRows = 2;
             playTime = 10;
-            memTime = 3;
+            memTime = 5;
             break;
         case 'medium':
             numberOfColumns = 4;
             numberOfRows = 3;
             playTime = 15;
-            memTime = 3;
+            memTime = 5;
             break;
         case 'hard':
             numberOfColumns = 6;
             numberOfRows = 4;
             playTime = 45;
-            memTime = 0;
+            memTime = 5;
             break;
         case 'insane':
             numberOfColumns = 8;
             numberOfRows = 5;
             playTime = 90;
-            memTime = 0;
+            memTime = 3;
             break;
     }
     total = numberOfColumns * numberOfRows;
     populateImages();
     aux = [];
     for(let i=0; i<total/2;i++){
-        randomImage = Math.floor(Math.random() * (totalMemes - i));
+        randomImage = Math.floor(Math.random() * (totalImgs - i));
         aux.push(images[randomImage],images[randomImage]);
         images.splice(randomImage,1);
     }
