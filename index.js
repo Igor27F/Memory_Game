@@ -12,7 +12,7 @@ totalRickAndMorty = 826;
 rickAndMortyApi = 'https://rickandmortyapi.com/api/character/avatar/';
 pokemonAPI = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/'
 var flipTimer;
-sortedTheme = Math.floor(Math.random() * 2);
+sortedTheme = Math.floor(Math.random() * 2); // TODO: dar a oppção do usuário escolher qual tema vai querer
 totalImgs = sortedTheme == 0 ? totalRickAndMorty : totalPokemon;
 
 //selecionar Imagens
@@ -23,6 +23,7 @@ function populateImages(){
     }
 }
 
+//função que retorna as ulrs das imagens
 function drawImage(number){
     return sortedTheme == 0 ? rickAndMortyApi + number + '.jpeg' : pokemonAPI + number + '.png';
 }
@@ -224,7 +225,8 @@ function ClearPages(){
 document.getElementById('easy').onclick = ()=>{difficult='easy';loadGame();}
 document.getElementById('medium').onclick = ()=>{difficult='medium';loadGame();}
 document.getElementById('hard').onclick = ()=>{difficult='hard';loadGame();}
-
+//TODO: adicionar modo custom no qual o usuário pode escolher as configurações
+//TODO: iniciar jogo apenas depois de carregar as imagens
 function loadGame(){
     gameReset();
     screens.gameRunning();
@@ -250,9 +252,9 @@ function loadGame(){
             break;
         case 'insane':
             numberOfColumns = 8;
-            numberOfRows = 5;
-            playTime = 90;
-            memTime = 3;
+            numberOfRows = 6;
+            playTime = 120;
+            memTime = 10;
             break;
     }
     total = numberOfColumns * numberOfRows;
