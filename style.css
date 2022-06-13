@@ -115,6 +115,24 @@ body{
     padding: 24px;
     cursor: pointer;
 }
+#selectTheme{
+    width: 15%;
+    height: 15%;
+    border-radius: 25px;
+    margin-top: -10%;
+    display:flex;
+    align-items: space-between;
+    justify-content: center;
+}
+.selectableTheme{
+    border: 3px solid black;
+    cursor: pointer;
+    display:block;
+    margin-left: 5px;
+}
+.selectableTheme:hover{
+    box-shadow: 0 0 2px 1px rgba(255, 0, 0, 0.8);
+}
 
 @keyframes timer-animation-reverse{
     from{

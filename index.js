@@ -6,7 +6,6 @@ fwColors = ['blue', 'cyan', 'orange', 'pink', 'purple', 'purple2', 'white'];
 difficult = '';
 images = [];
 total = 0;
-totalMemes = 29;
 totalPokemon = 898;
 totalRickAndMorty = 826;
 rickAndMortyApi = 'https://rickandmortyapi.com/api/character/avatar/';
@@ -14,6 +13,8 @@ pokemonAPI = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/p
 var flipTimer;
 sortedTheme = Math.floor(Math.random() * 2); // TODO: dar a oppção do usuário escolher qual tema vai querer
 totalImgs = sortedTheme == 0 ? totalRickAndMorty : totalPokemon;
+rickIcon = document.getElementById('rickIcon');
+pokeIcon = document.getElementById('pokeIcon');
 
 //selecionar Imagens
 function populateImages(){
@@ -22,6 +23,24 @@ function populateImages(){
         images.push(i)
     }
 }
+
+rickIcon.onclick = ()=>{
+    rickIcon.classList.remove('selectableTheme');
+    rickIcon.style.backgroundColor = 'red';
+    pokeIcon.style.backgroundColor = '';
+    pokeIcon.className = 'selectableTheme';
+    sortedTheme = 0;
+    totalImgs = totalRickAndMorty
+}
+pokeIcon.onclick = ()=>{
+    pokeIcon.classList.remove('selectableTheme');
+    rickIcon.style.backgroundColor = '';
+    pokeIcon.style.backgroundColor = 'red';
+    rickIcon.className = 'selectableTheme';
+    sortedTheme = 1;
+    totalImgs = totalPokemon;
+}
+
 
 //função que retorna as ulrs das imagens
 function drawImage(number){
