@@ -1,152 +1,153 @@
-*{
-    user-select: none;
+* {
+  user-select: none;
 }
-body{
-    width: 98%;
-    height: 98vh;
-    display: flex;
-    align-items: center; 
-    justify-content: center;
-    background-color: black;
-    overflow: hidden;
+body {
+  width: 98%;
+  height: 98vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: black;
+  overflow: hidden;
 }
-#gameScreen{
-    width:90%;
-    height:80%;
-    overflow: hidden;
+#gameScreen {
+  width: 90%;
+  height: 80%;
+  overflow: hidden;
 }
-#initialMenu{
-    background-image: url('imgs/bg5.gif');
-    background-repeat: no-repeat;
-    background-size: 100% 100%;
-    background-attachment: fixed;
-    width: 100%;
-    height: 100%;
-    display:none;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    color: black;
+#initialMenu {
+  background-image: url("imgs/bg5.gif");
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  background-attachment: fixed;
+  width: 100%;
+  height: 100%;
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: black;
 }
-#gameStart{
-    font-size: 72px;
-    padding: 12px 24px 24px 24px;
+#gameStart {
+  font-size: 72px;
+  padding: 12px 24px 24px 24px;
 }
-.gameButton{
-    cursor: pointer;
-    text-shadow: 2px 2px 4px #000000;
+.gameButton {
+  cursor: pointer;
+  text-shadow: 2px 2px 4px #000000;
 }
-.gameButton:hover{
-    color: rgb(44, 53, 107);
+.gameButton:hover {
+  color: rgb(44, 53, 107);
 }
-.gameButton:active{
-    color: blue;
+.gameButton:active {
+  color: blue;
 }
-#difficultSelection{
-    display:flex;
-    width: 100%;
-    justify-content: space-evenly;
-    color: white;
-    visibility: hidden;
+#difficultSelection {
+  display: flex;
+  width: 100%;
+  justify-content: space-evenly;
+  color: white;
+  visibility: hidden;
 }
-.difficult{
-    padding: 24px;
+.difficult {
+  padding: 24px;
 }
-#gameRunning{
-    display: none;
-    line-height: auto;
+#gameRunning {
+  display: none;
+  line-height: auto;
 }
-#gameInstructions{
-    background-color: black;
-    position: absolute;
+#gameInstructions {
+  background-color: black;
+  position: absolute;
 }
-#instructionText{
-    color: white;
-    position: absolute;
-    left: 50%;
-    transform: translate(-50%, -50%);
+#instructionText {
+  color: white;
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
-#timer{
-    background-color: green;
-    position: absolute;
+#timer {
+  background-color: green;
+  position: absolute;
 }
-#gameOver{
-    background-color: red;
-    width:100%;
-    height: 100%;
-    display: none;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+#gameOver {
+  background-color: red;
+  width: 100%;
+  height: 100%;
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
-#youLoseText{
-    color:black;
-    font-size: 72px;
+#youLoseText {
+  color: black;
+  font-size: 72px;
 }
-#gameOverOptions{
-    display:flex;
-    width: 100%;
-    justify-content: space-evenly;
-    color: white;
-    margin-top: 24px;
-    font-size: 24px;
+#gameOverOptions {
+  display: flex;
+  width: 100%;
+  justify-content: space-evenly;
+  color: white;
+  margin-top: 24px;
+  font-size: 24px;
 }
-#gameOverMenuReturn{
-    padding: 24px;
-    cursor: pointer;
+#gameOverMenuReturn {
+  padding: 24px;
+  cursor: pointer;
 }
-#tryAgain{
-    padding: 24px;
-    cursor: pointer;
+#tryAgain {
+  padding: 24px;
+  cursor: pointer;
 }
-#victory{
-    width: 100%;
-    height: 100%;
-    align-items: center; 
-    justify-content: center;
-    flex-direction: column;
-    background-color:black;
-    color: white;
+#victory {
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background-color: black;
+  color: white;
 }
-#congrats{
-    font-size: 72px;
+#congrats {
+  font-size: 72px;
 }
-#menuReturn{
-    padding: 24px;
-    cursor: pointer;
+#menuReturn {
+  padding: 24px;
+  cursor: pointer;
+  z-index: 10000;
 }
-#selectTheme{
-    width: 15%;
-    height: 15%;
-    border-radius: 25px;
-    margin-top: -10%;
-    display:flex;
-    align-items: space-between;
-    justify-content: center;
+#selectTheme {
+  width: 15%;
+  height: 15%;
+  border-radius: 25px;
+  margin-top: -10%;
+  display: flex;
+  align-items: space-between;
+  justify-content: center;
 }
-.selectableTheme{
-    border: 3px solid black;
-    cursor: pointer;
-    display:block;
-    margin-left: 5px;
+.selectableTheme {
+  border: 3px solid black;
+  cursor: pointer;
+  display: block;
+  margin-left: 5px;
 }
-.selectableTheme:hover{
-    box-shadow: 0 0 2px 1px rgba(255, 0, 0, 0.8);
+.selectableTheme:hover {
+  box-shadow: 0 0 2px 1px rgba(255, 0, 0, 0.8);
 }
 
-@keyframes timer-animation-reverse{
-    from{
-        width: 100%;
-    }
-    to{
-        width: 0;
-    }
+@keyframes timer-animation-reverse {
+  from {
+    width: 100%;
+  }
+  to {
+    width: 0;
+  }
 }
-@keyframes timer-animation{
-    from{
-        width: 0;
-    }
-    to{
-        width: 100%;
-    }
+@keyframes timer-animation {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
 }
